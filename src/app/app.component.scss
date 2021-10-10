@@ -1,3 +1,35 @@
-html {
-  font-size: 1em;
+:host {
+  --cell-size: 20px;
+  --cell-dead-bg-color: rgb(206, 206, 206);
+  --cell-hover-bg-color: rgb(188, 188, 188);
+  --cell-alive-bg-color: rgb(9, 194, 9);
+}
+
+.field {
+  --field-width: 20;
+
+  display: grid;
+  grid-template-columns: repeat(var(--field-width), min-content);
+  border-color: 1px solid rgb(0, 0, 0);
+}
+
+.cell {
+  display: inline-block;
+  height: var(--cell-size);
+  width: var(--cell-size);
+  background-color: var(--cell-dead-bg-color);
+  font-size: 0.75em;
+
+  &.alive,
+  &:hover {
+    border-radius: 5%;
+  }
+
+  &.alive {
+    background-color: var(--cell-alive-bg-color);
+  }
+
+  &:hover {
+    background-color: var(--cell-hover-bg-color);
+  }
 }
