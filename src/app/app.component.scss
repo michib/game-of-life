@@ -1,8 +1,8 @@
 :host {
   --cell-size: 20px;
-  --cell-dead-bg-color: rgb(206, 206, 206);
-  --cell-hover-bg-color: rgb(188, 188, 188);
-  --cell-alive-bg-color: rgb(9, 194, 9);
+  --cell-dead-bg-color: #deddda;
+  --cell-hover-bg-color: #cdccc9;
+  --cell-alive-bg-color: #2ec27e;
 }
 
 .field {

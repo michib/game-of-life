@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -32,7 +33,7 @@ interface Field {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   form: FormGroup = new FormGroup({});
 
   field$: Observable<Field> = EMPTY;
@@ -151,12 +152,44 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
-  setCssProperty(
+  ngAfterViewInit(): void {
+    if (!this.fieldElement?.nativeElement) {
+      return;
+    }
+
+    const style = getComputedStyle(this.fieldElement.nativeElement);
+
+    console.log({ form: this.form });
+
+    const setFormValue = (
+      control: string,
+      cssVariable: string,
+      mapFn = (x: string) => x
+    ) => {
+      this.form
+        .get(control)
+        ?.setValue(mapFn(style.getPropertyValue(cssVariable)));
+
+      console.log('setFormValue', {
+        control,
+        cssVariable,
+        ctl: this.form.get(control),
+        styleValue: style.getPropertyValue(cssVariable),
+      });
+    };
+
+    setFormValue('width', '--field-width');
+    setFormValue('cellSize', '--cell-size', (value) => value.replace('px', ''));
+    setFormValue('cellAliveColor', '--cell-alive-bg-color');
+    setFormValue('cellDeadColor', '--cell-dead-bg-color');
+  }
+
+  private setCssProperty(
     settings$: Observable<any>,
     setting: string,
     cssVarName: string,
     mapFn = (x: string) => x
-  ) {
+  ): void {
     settings$
       .pipe(
         pluck(setting),

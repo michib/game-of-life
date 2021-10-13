@@ -30,7 +30,7 @@
 <div class="field" #field>
   <span
     *ngFor="
-      let cell of (field$ | async)!.status;
+      let cell of (field$ | async)?.status;
       let i = index;
       trackBy: trackByFieldFn
     "
